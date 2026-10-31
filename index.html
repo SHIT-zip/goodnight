@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赞颂哈斯塔</title>
+<style>
+  :root{
+    --gold:#c9b458;
+    --gold-bright:#e0cf7a;
+    --ink:#a89e83;
+    --bg:#07070a;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html, body{ height:100%; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% -10%, #1c1810 0%, #0d0c0a 42%, #050505 100%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Georgia","Songti SC","STSong","SimSun",serif;
+    line-height:2;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* 胶片颗粒 */
+  .grain{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 暗角 */
+  .vignette{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:radial-gradient(ellipse 70% 60% at 50% 45%, transparent 35%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.92) 100%);
+  }
+
+  .page{
+    position:relative;
+    z-index:2;
+    max-width:760px;
+    margin:0 auto;
+    padding:88px 26px 150px;
+  }
+
+  /* ============ 头部 ============ */
+  header{
+    text-align:center;
+    margin-bottom:70px;
+  }
+
+  .sigil-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:34px;
+  }
+
+  .sigil{
+    width:118px;
+    height:118px;
+    color:var(--gold);
+    animation:sigilPulse 9s ease-in-out infinite;
+  }
+
+  @keyframes sigilPulse{
+    0%, 100%{
+      opacity:.5;
+      filter:drop-shadow(0 0 8px rgba(200,170,70,.30));
+    }
+    50%{
+      opacity:1;
+      filter:drop-shadow(0 0 26px rgba(230,200,110,.60));
+    }
+  }
+
+  .title{
+    font-size:clamp(1.9rem, 6.5vw, 3.1rem);
+    font-weight:400;
+    letter-spacing:.32em;
+    text-indent:.32em;
+    color:var(--gold-bright);
+    margin:0 0 22px;
+    animation:flicker 8s linear infinite;
+  }
+
+  @keyframes flicker{
+    0%, 17%, 21%, 24%, 52%, 56%, 100%{
+      opacity:1;
+      text-shadow:
+        0 0 14px rgba(220,190,90,.45),
+        0 0 42px rgba(170,130,40,.28),
+        0 0 90px rgba(120,90,20,.18);
+    }
+    19%, 23%, 54%{
+      opacity:.62;
+      text-shadow:none;
+    }
+    60%{ opacity:.86; }
+  }
+
+  .subtitle{
+    margin:0;
+    font-size:.76rem;
+    letter-spacing:.42em;
+    text-indent:.42em;
+    color:#6d6549;
+  }
+
+  .divider{
+    height:1px;
+    width:min(340px, 70%);
+    margin:56px auto 0;
+    background:linear-gradient(to right, transparent, rgba(200,170,80,.42), transparent);
+  }
+
+  /* ============ 祷文 ============ */
+  .prayer p{
+    margin:0 0 2.3em;
+    text-align:center;
+    font-size:1.03rem;
+    letter-spacing:.07em;
+    opacity:0;
+    transform:translateY(16px);
+    filter:blur(7px);
+    transition:opacity 1.5s ease, transform 1.5s ease, filter 1.5s ease;
+  }
+
+  .prayer p.show{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+  }
+
+  .prayer p.gold{
+    color:var(--gold);
+    text-shadow:0 0 20px rgba(200,170,70,.28);
+    letter-spacing:.12em;
+  }
+
+  .prayer p.whisper{
+    font-size:.9rem;
+    color:#7d7359;
+    letter-spacing:.16em;
+    line-height:2.2;
+  }
+
+  .prayer p.creed{
+    color:#c4b47a;
+    letter-spacing:.2em;
+    font-size:1.02rem;
+    line-height:2.4;
+  }
+
+  /* ============ 落款 ============ */
+  .colophon{
+    margin-top:78px;
+    text-align:center;
+    font-size:.72rem;
+    letter-spacing:.3em;
+    color:#5a5340;
+    opacity:0;
+    transition:opacity 2.5s ease;
+  }
+
+  .colophon.show{ opacity:1; }
+
+  @media (max-width:520px){
+    .page{ padding:64px 20px 110px; }
+    .prayer p{ font-size:.98rem; line-height:1.95; }
+    .sigil{ width:92px; height:92px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .title, .sigil{ animation:none; }
+    .prayer p{
+      opacity:1;
+      transform:none;
+      filter:none;
+      transition:none;
+    }
+    .colophon{ opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<main class="page">
+
+  <header>
+    <div class="sigil-wrap">
+      <svg class="sigil" viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round">
+          <path d="M100 18 V182"/>
+          <path d="M100 58 L64 32 L50 50"/>
+          <path d="M100 58 L136 32 L150 50"/>
+          <path d="M100 112 L66 88 L54 104"/>
+          <path d="M100 112 L134 88 L146 104"/>
+          <path d="M100 150 L78 178"/>
+          <path d="M100 150 L122 178"/>
+        </g>
+      </svg>
+    </div>
+
+    <h1 class="title">赞颂哈斯塔</h1>
+    <p class="subtitle">黄衣之王祷词 · 第九残卷</p>
+    <div class="divider"></div>
+  </header>
+
+  <section class="prayer">
+
+    <p>哈利湖的沉睡者，卡尔克萨的黄衣之王，<br>
+       毕宿五之下的牧者，<br>
+       我等以颤抖的声带，向您献上不成调的歌。</p>
+
+    <p>愿您的名不被念出——念出者已癫；<br>
+       愿您的印不被看见——看见者已盲。</p>
+
+    <p>我们的祖先曾在湖畔见过您，此后终身不语；<br>
+       我们的母亲曾在梦中听过您，此后不再醒来。</p>
+
+    <p>您是风中的行者，穿过那座没有门的城；<br>
+       您是星的牧人，驱赶着失序的光。<br>
+       黄衣之下无面，长袍之中无形，<br>
+       您以沉默统治，以疯狂加冕。</p>
+
+    <p>我等献上双眼，只求从此不再看见；<br>
+       我等献上双耳，只求从此不再听见；<br>
+       我等献上姓名，任其被风卷走，<br>
+       成为您剧本边缘的一粒尘，<br>
+       在您翻页时，无声落下。</p>
+
+    <p>我们曾在夜里数过您的名字，<br>
+       数到第七个音节时，舌头便不再属于自己。<br>
+       我们曾在镜中描摹您的印记，<br>
+       描到第三笔时，镜中的人先笑了。</p>
+
+    <p>那些读完剧本的人，如今都住在墙上；<br>
+       那些唱完颂歌的人，如今都沉在湖底。<br>
+       而我们仍在唱，因为我们不敢停——<br>
+       因为我们知道，歌声一停，<br>
+       您就会听见沉默，而沉默里没有赞美。</p>
+
+    <p>黄印悬于门楣，血自门缝渗入。<br>
+       烛火尽数倒向地下，影子站起身来，人便跪了下去。<br>
+       我们听见竖笛声，在墙里，在骨里，<br>
+       在每一个被遗忘的童年夜晚反复吹响。</p>
+
+    <p>黑色的星在正午升起。<br>
+       牲畜先于人类察觉，它们整夜朝同一个方向跪下。<br>
+       井水变咸，犬类不肯吠叫。<br>
+       孩子在地板上画出那个符号，<br>
+       用的是他们自己咬破手指流出的血。</p>
+
+    <p>他来了。他从来不曾离开。<br>
+       他只是收起了光，让我们错把白昼当成真的。<br>
+       湖水倒映着不属于此世的星空，<br>
+       那些星星排列成一个符号，念起来像是一种尖叫。</p>
+
+    <p class="whisper">不要回头。<br>
+       不要说“祂不在此处”。<br>
+       不要用您的名字称呼任何事物——<br>
+       因为在那个夜里，所有被命名的东西都会回应。</p>
+
+    <p class="creed">赞颂哈斯塔。<br>
+       赞颂哈利湖下的王。<br>
+       赞颂那不可描摹的印。<br>
+       赞颂那使人流泪的戏。<br>
+       赞颂那掀开理智之幕的手。<br>
+       赞颂那在书页背面等待的寂静。</p>
+
+    <p class="gold">赞颂那将要来的。<br>
+       赞颂那已经来的。<br>
+       赞颂那从不存在的。</p>
+
+  </section>
+
+  <p class="colophon">阿门——倘若还有神肯听<br><br>
+    —— 于卡尔克萨湖畔，灯灭之后抄录 ——</p>
+
+</main>
+
+<script>
+  (function () {
+    var items = document.querySelectorAll('.prayer p, .colophon');
+
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('show'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -6% 0px'
+    });
+
+    items.forEach(function (el, i) {
+      /* 首屏元素错开一点，避免同时浮现 */
+      el.style.transitionDelay = (i < 3 ? i * 0.35 : 0) + 's';
+      io.observe(el);
+    });
+  })();
+</script>
+
+</body>
+</html>
